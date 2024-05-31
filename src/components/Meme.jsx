@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Meme() {
   //  initializing the meme state with default values
@@ -9,14 +9,21 @@ export default function Meme() {
   });
 
   // setting meme image state to memeData..
-  const [allMemeImages, setAllMemeImages] = useState(memeData);
+  const [allMemeImages, setAllMemeImages] = useState([]);
 
+  //use Effect to to manage the side effect
+
+  useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then((res) => res.json())
+      .then((data) => setAllMemeImages(data.data.memes))
+      .catch((error) => console.log(error));
+  }, []);
   //function to handle the click of get new meme image button
 
   function getMemeImage() {
-    const memeArray = allMemeImages.data.memes;
-    const randomNumber = Math.floor(Math.random() * memeArray.length);
-    const url = memeArray[randomNumber].url;
+    const randomNumber = Math.floor(Math.random() * allMemeImages.length);
+    const url = allMemeImages[randomNumber].url;
     //seeting   an new meme with an updater function
     setMeme((prevMeme) => {
       return {
