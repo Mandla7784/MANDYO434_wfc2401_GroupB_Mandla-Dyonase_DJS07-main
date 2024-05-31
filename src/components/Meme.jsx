@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import memeData from "./memeData";
 
 export default function Meme() {
   //  initializing the meme state with default values
